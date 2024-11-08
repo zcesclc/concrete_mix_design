@@ -7,6 +7,7 @@ from deap import base, creator, tools
 import random
 from config.settings import CONCRETE_BOUNDS
 from utils.constraints import ConcreteConstraints
+import os
 
 class ConcreteMixOptimizer:
     def __init__(self):
@@ -22,7 +23,10 @@ class ConcreteMixOptimizer:
     def load_data(self):
         """Load and preprocess concrete mix data"""
         try:
-            df = pd.read_csv(r'C:\Users\cherrychan9898\Downloads\Copy of Concrete_Data.csv')
+            current_directory = os.getcwd()
+            file_name = "concrete_data.csv"
+            file_path = os.path.join(current_directory, file_name)
+            df = pd.read_csv(file_path)
             df.columns = self.feature_names + [self.target_name]
             return df
         except Exception as e:

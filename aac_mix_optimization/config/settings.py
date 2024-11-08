@@ -1,6 +1,6 @@
 # config/settings.py
 # AAC mix bounds
-AAC_CONSTRAINTS = {
+AAC_LIMITS = {
     'SI_AL_RATIO': (1.5, 7.5),
     'NA_AL_RATIO': (0.2, 5.0),
     'CA_SI_RATIO': (0.0, 1.6),

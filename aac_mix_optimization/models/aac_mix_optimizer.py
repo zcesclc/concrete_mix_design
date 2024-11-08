@@ -1,17 +1,18 @@
 # models/aac_mix_optimizer.py
 import pandas as pd
-#from sklearn.preprocessing import StandardScaler
-#from sklearn.model_selection import train_test_split
-#from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingRegressor
 from deap import base, creator, tools
 import random
+import os
 
 class AACMixOptimizer:
     def __init__(self):
         self.feature_names = [
             'Si/Al', 'Na/Al', 'Ca/Si', 'Activator_binder',
             'Fine_aggregate_to_binder', 'Coarse_aggregate_to_binder',
-            'Curing_temperature (°C)', 'Curing_age (d)'
+            'Curing_temperature (C)', 'Curing_age (d)'
         ]
         self.target_name = 'CS (MPa)'
         self.scaler = None
@@ -19,7 +20,12 @@ class AACMixOptimizer:
 
     def load_data(self):
         """Load AAC mix data"""
-        df = pd.read_excel(r'C:\Users\cherrychan9898\Documents\AAC data\extracted_CS.xlsx')
+        current_directory = os.getcwd()
+        file_name = "aac_data.csv"
+        file_path = os.path.join(current_directory, file_name)
+        print("before reading the csv")
+        df = pd.read_csv(file_path, encoding='utf-8', encoding_errors='replace')
+        print("after reading the csv")
         df = df.iloc[:, 1:]  # Drop first column
         return df
 
@@ -27,6 +33,7 @@ class AACMixOptimizer:
         """Prepare data and filter for 28-day mixes only"""
         # Filter for 28-day samples only
         df_28d = df[df['Curing_age (d)'] == 28]
+        print(df.head())
         
         X = df_28d[self.feature_names]
         y = df_28d[self.target_name]
